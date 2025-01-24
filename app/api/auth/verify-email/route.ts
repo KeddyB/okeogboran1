@@ -18,7 +18,7 @@ export async function GET(req: Request) {
   }
 
   try {
-    const user = await client.fetch(`*[_type == "user" && verificationToken == $token][0]`, { token })
+    const user = await client.fetch(`*[_type == "user" && verificationToken == $token][0]`, { token: token })
 
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 })
