@@ -55,8 +55,8 @@ export default function ResetPasswordPage() {
       } else {
         setError(data.message || "An error occurred")
       }
-    } catch (_error) {
-      setError("An error occurred. Please try again.")
+    } catch (error) {
+      setError(`An error occurred. Please try again. ${error}`)
     } finally {
       setIsLoading(false)
     }

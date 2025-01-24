@@ -2,7 +2,7 @@ import type React from "react"
 import { forwardRef } from "react"
 
 export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
-  // This is intentionally left empty
+  variant?: 'default'
 }
 
 export const Label = forwardRef<HTMLLabelElement, LabelProps>(({ className = "", ...props }, ref) => {
@@ -10,4 +10,3 @@ export const Label = forwardRef<HTMLLabelElement, LabelProps>(({ className = "",
 })
 
 Label.displayName = "Label"
-

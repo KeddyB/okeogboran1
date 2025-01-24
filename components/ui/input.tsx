@@ -2,7 +2,7 @@ import type React from "react"
 import { forwardRef } from "react"
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  // This is intentionally left empty
+  variant?: 'default'
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(({ className = "", ...props }, ref) => {
