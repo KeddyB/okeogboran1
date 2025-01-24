@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs"
 import { getServerSession } from "next-auth/next"
 import { authConfig } from "@/auth.config"
 
-export async function POST(req: Request) {
+export async function POST(req) {
   try {
     const session = await getServerSession(authConfig)
     if (!session) {

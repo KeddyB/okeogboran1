@@ -1,4 +1,4 @@
-import type { AuthConfig } from "next-auth"
+import  type {NextAuthOptions} from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { createClient } from '@sanity/client'
@@ -12,7 +12,8 @@ const client = createClient({
   token: process.env.NEXTPUBLICSANITYTOKEN,
 })
 
-export const authConfig: AuthConfig = {
+
+export const authConfig: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,

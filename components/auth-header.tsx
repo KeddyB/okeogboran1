@@ -17,16 +17,16 @@ export function AuthHeader() {
         {session && (
           <>
             <Link href="/advertisement">
-              <Button variant="ghost" size="icon">
+              <Button>
                 <Megaphone className="h-5 w-5" />
               </Button>
             </Link>
             <Link href="/account">
-              <Button variant="ghost" size="icon">
+              <Button>
                 <User className="h-5 w-5" />
               </Button>
             </Link>
-            <Button onClick={() => signOut()} variant="outline" size="icon">
+            <Button onClick={() => signOut()} variant="outline">
               <LogOut className="h-5 w-5" />
             </Button>
           </>

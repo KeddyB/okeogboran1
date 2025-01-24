@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
+import type {Confiuration} from "webpack"
+
 const nextConfig = {
   reactStrictMode: true,
-  webpack: (config, { isServer }) => {
+  webpack: (config: Configuration, { isServer }: {isServer: boolean}) => {
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,

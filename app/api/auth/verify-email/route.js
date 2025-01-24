@@ -9,7 +9,7 @@ const client = createClient({
   token: process.env.NEXTPUBLICSANITYTOKEN,
 })
 
-export async function GET(req: Request) {
+export async function GET(req) {
   const { searchParams } = new URL(req.url)
   const token = searchParams.get("token")
 
@@ -18,7 +18,7 @@ export async function GET(req: Request) {
   }
 
   try {
-    const user = await client.fetch(`*[_type == "user" && verificationToken == $token][0]`, { token: token })
+    const user = await client.fetch(`*[_type == "user" && verificationToken == $token][0]`, { token })
 
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 })

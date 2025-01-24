@@ -25,7 +25,7 @@ export default function PaymentPage() {
     }
   }, [session, status, router])
 
-  const handlePaymentSuccess = async (reference: unknown) => {
+  const handlePaymentSuccess = async (reference) => {
     try {
       if (!session?.user?.id) {
         throw new Error("User ID not found")
@@ -56,7 +56,7 @@ export default function PaymentPage() {
   const componentProps = {
     email: session?.user?.email,
     amount: 100000, // Amount in kobo (1000 Naira)
-    publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY!,
+    publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
     text: "Pay Now",
     onSuccess: handlePaymentSuccess,
     onClose: () => alert("Payment cancelled"),

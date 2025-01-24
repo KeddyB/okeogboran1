@@ -24,7 +24,7 @@ export default function VerifyPage() {
     }
   }, [session, status, router])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setError("")
     setMessage("")
