@@ -24,7 +24,7 @@ export default function About() {
               alt="Festival celebration" 
               width={60} 
               height={60}
-              className="object-cover"
+              className="object-cover sm:hidden"
             />
             <div className="text-xs">
               <h3 className="font-bold">Annual Olunhundole Festival</h3>

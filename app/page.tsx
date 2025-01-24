@@ -6,7 +6,6 @@ import { useEffect } from 'react'
 import { Header } from './components/header'
 import { MainContent } from './components/main-content'
 import { Footer } from './components/footer'
-import { AuthHeader } from '@/components/auth-header'
 import { FancyLoadingScreen } from '@/components/fancy-loading-screen'; // Import the FancyLoadingScreen component
 
 export default function Home() {

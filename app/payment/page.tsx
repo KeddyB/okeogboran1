@@ -5,13 +5,11 @@ import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { Button } from "@/components/ui/button"
+import { FancyLoadingScreen } from '@/components/fancy-loading-screen'
 
 const PaystackButton = dynamic(() => import('react-paystack').then((mod) => mod.PaystackButton), {
   ssr: false,
 })
-
-// Assuming FancyLoadingScreen is defined elsewhere and imported
-const FancyLoadingScreen = () => <div>Fancy Loading Screen</div>;
 
 
 export default function PaymentPage() {
