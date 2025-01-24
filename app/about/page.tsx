@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useTheme } from 'next-themes'
 
 import History from './History'
 import Economy from './Economy'
@@ -11,7 +10,6 @@ import Education from './Education'
 import Footer from './Footer'
 
 export default function About() {
-  const { theme } = useTheme()
 
   return (
     <div className="min-h-screen bg-background text-foreground py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-200">

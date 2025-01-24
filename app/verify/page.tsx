@@ -1,55 +1,54 @@
-'use client'
+"use client"
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useSession } from 'next-auth/react'
+import { useSession } from "next-auth/react"
 // Assuming FancyLoadingScreen is imported elsewhere or defined in this file.  If not, add import statement.
-import { FancyLoadingScreen } from '@/components/fancy-loading-screen'; // Or wherever it's located
-
+import { FancyLoadingScreen } from "@/components/fancy-loading-screen" // Or wherever it's located
 
 export default function VerifyPage() {
-  const [verificationCode, setVerificationCode] = useState('')
-  const [error, setError] = useState('')
-  const [message, setMessage] = useState('')
+  const [verificationCode, setVerificationCode] = useState("")
+  const [error, setError] = useState("")
+  const [message, setMessage] = useState("")
   const router = useRouter()
   const { data: session, status, update } = useSession()
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/login')
+    if (status === "unauthenticated") {
+      router.push("/login")
     } else if (session?.user?.isVerified) {
-      router.push('/payment')
+      router.push("/payment")
     }
   }, [session, status, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
-    setMessage('')
+    setError("")
+    setMessage("")
 
     try {
-      const res = await fetch('/api/auth/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/auth/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: session?.user?.email, verificationCode }),
       })
       const data = await res.json()
       if (res.ok) {
         setMessage(data.message)
         await update({ isVerified: true })
-        router.push('/payment')
+        router.push("/payment")
       } else {
-        setError(data.message || 'Verification failed')
+        setError(data.message || "Verification failed")
       }
     } catch (error) {
-      setError('An error occurred. Please try again.')
+      setError(`An error occurred. Please try again. ${error}`)
     }
   }
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return <FancyLoadingScreen />
   }
 
@@ -61,7 +60,9 @@ export default function VerifyPage() {
         {message && <p className="text-green-500 text-sm mt-2">{message}</p>}
         <form onSubmit={handleSubmit} className="mt-4">
           <div className="mt-4">
-            <Label htmlFor="verificationCode" className="text-foreground">Verification Code</Label>
+            <Label htmlFor="verificationCode" className="text-foreground">
+              Verification Code
+            </Label>
             <Input
               type="text"
               placeholder="6-digit code"
@@ -82,3 +83,4 @@ export default function VerifyPage() {
     </div>
   )
 }
+

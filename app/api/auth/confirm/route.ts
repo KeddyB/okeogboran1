@@ -34,7 +34,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json({ message: 'Email confirmed successfully' })
   } catch (error) {
-    return NextResponse.json({ message: 'Error confirming email' }, { status: 500 })
+    return NextResponse.json({ message: `Error confirming email ${error} ` }, { status: 500 })
   }
 }
 

@@ -38,7 +38,7 @@ export default function AccountPage() {
         setConfirmPassword('')
       }
     } catch (error) {
-      setMessage('An error occurred. Please try again.')
+      setMessage(`An error occurred. Please try again.${error}`)
     }
   }
 

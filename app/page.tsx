@@ -1,27 +1,27 @@
-'use client'
+"use client"
 
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { Header } from './components/header'
-import { MainContent } from './components/main-content'
-import { Footer } from './components/footer'
-import { FancyLoadingScreen } from '@/components/fancy-loading-screen'; // Import the FancyLoadingScreen component
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
+import { Header } from "./components/header"
+import { MainContent } from "./components/main-content"
+import { Footer } from "./components/footer"
+import { FancyLoadingScreen } from "@/components/fancy-loading-screen" // Import the FancyLoadingScreen component
 
 export default function Home() {
   const { data: session, status } = useSession()
   const router = useRouter()
 
   useEffect(() => {
-    if (status === 'loading') return
+    if (status === "loading") return
     if (!session) {
-      router.push('/login')
+      router.push("/login")
     } else if (session.user && !session.user.hasPaid) {
-      router.push('/payment')
+      router.push("/payment")
     }
   }, [session, status, router])
 
-  if (status === 'loading' || !session) {
+  if (status === "loading" || !session) {
     return <FancyLoadingScreen />
   }
 

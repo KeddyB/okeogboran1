@@ -1,21 +1,21 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { FancyLoadingScreen } from '@/components/fancy-loading-screen'
+import { FancyLoadingScreen } from "@/components/fancy-loading-screen"
 
 export default function ResetPasswordPage() {
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState('')
-  const [message, setMessage] = useState('')
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [error, setError] = useState("")
+  const [message, setMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
-  const token = searchParams.get('token')
+  const token = searchParams.get("token")
 
   const validatePassword = (password: string) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/
@@ -24,12 +24,14 @@ export default function ResetPasswordPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
-    setMessage('')
+    setError("")
+    setMessage("")
     setIsLoading(true)
 
     if (!validatePassword(password)) {
-      setError("Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.")
+      setError(
+        "Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+      )
       setIsLoading(false)
       return
     }
@@ -41,20 +43,20 @@ export default function ResetPasswordPage() {
     }
 
     try {
-      const res = await fetch('/api/auth/reset-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, password }),
       })
       const data = await res.json()
       if (res.ok) {
         setMessage(data.message)
-        setTimeout(() => router.push('/login'), 3000)
+        setTimeout(() => router.push("/login"), 3000)
       } else {
-        setError(data.message || 'An error occurred')
+        setError(data.message || "An error occurred")
       }
-    } catch (error) {
-      setError('An error occurred. Please try again.')
+    } catch (_error) {
+      setError("An error occurred. Please try again.")
     } finally {
       setIsLoading(false)
     }
@@ -72,7 +74,9 @@ export default function ResetPasswordPage() {
         {message && <p className="text-primary text-sm mt-2">{message}</p>}
         <form onSubmit={handleSubmit} className="mt-4">
           <div className="mt-4">
-            <Label htmlFor="password" className="text-foreground">New Password</Label>
+            <Label htmlFor="password" className="text-foreground">
+              New Password
+            </Label>
             <Input
               type="password"
               placeholder="New Password"
@@ -84,7 +88,9 @@ export default function ResetPasswordPage() {
             />
           </div>
           <div className="mt-4">
-            <Label htmlFor="confirmPassword" className="text-foreground">Confirm New Password</Label>
+            <Label htmlFor="confirmPassword" className="text-foreground">
+              Confirm New Password
+            </Label>
             <Input
               type="password"
               placeholder="Confirm New Password"
@@ -105,4 +111,3 @@ export default function ResetPasswordPage() {
     </div>
   )
 }
-
