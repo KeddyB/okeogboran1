@@ -112,4 +112,3 @@ export const authConfig: AuthConfig = {
     strategy: "jwt"
   }
 }
-
