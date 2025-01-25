@@ -15,7 +15,7 @@ function AuthWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
 
   useEffect(() => {
-    const protectedRoutes = ["/", "/about", "/advertisement"]
+    const protectedRoutes = ["/", "/about", "/advertisement", "/payment"]
     const isProtectedRoute = protectedRoutes.includes(pathname)
 
     const checkUserStatus = async () => {
@@ -24,10 +24,12 @@ function AuthWrapper({ children }: { children: React.ReactNode }) {
           const res = await fetch("/api/auth/user-status")
           const data = await res.json()
 
-          if (!data.isVerified) {
-            router.push("/verify")
-          } else if (!data.hasPaid && isProtectedRoute) {
+          if (!data.isVerified && pathname !== "/verify-email") {
+            router.push("/verify-email")
+          } else if (data.isVerified && !data.hasPaid && pathname !== "/payment" && isProtectedRoute) {
             router.push("/payment")
+          } else if (!data.isVerified && !data.hasPaid && pathname === "/advertisement") {
+            router.push("/verify-email")
           }
         } catch (error) {
           console.error("Error checking user status:", error)

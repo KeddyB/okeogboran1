@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth/next"
-import { authConfig } from '@/auth.config'
-import { createClient } from '@sanity/client'
+import { authConfig } from "@/auth.config"
+import { createClient } from "@sanity/client"
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -19,8 +19,11 @@ export async function GET() {
   }
 
   const user = await client.fetch(
-    `*[_type == "user" && email == $email][0]`,
-    { email: session.user.email }
+    `*[_type == "user" && email == $email][0]{
+      isVerified,
+      hasPaid
+    }`,
+    { email: session.user.email },
   )
 
   if (!user) {
@@ -29,6 +32,7 @@ export async function GET() {
 
   return NextResponse.json({
     isVerified: user.isVerified,
-    hasPaid: user.hasPaid
+    hasPaid: user.hasPaid,
   })
 }
+

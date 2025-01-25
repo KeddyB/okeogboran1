@@ -1,8 +1,11 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { createClient } from '@sanity/client'
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
+import { createClient } from "@sanity/client"
+import { useSession } from "next-auth/react"
+import { FancyLoadingScreen } from "@/components/fancy-loading-screen"
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -26,17 +29,48 @@ interface Advertisement {
 
 export default function AdvertisementPage() {
   const [ads, setAds] = useState<Advertisement[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const { status } = useSession()
+  const router = useRouter()
 
   useEffect(() => {
-    const fetchAds = async () => {
-      const query = `*[_type == "advertisement" && isActive == true && startDate <= $now && endDate >= $now]`
-      const params = { now: new Date().toISOString() }
-      const result = await client.fetch(query, params)
-      setAds(result)
+    const checkUserStatus = async () => {
+      if (status === "authenticated") {
+        try {
+          const res = await fetch("/api/auth/user-status")
+          const data = await res.json()
+
+          if (!data.isVerified) {
+            router.push("/verify-email")
+          } else if (!data.hasPaid) {
+            router.push("/payment")
+          } else {
+            fetchAds()
+          }
+        } catch (error) {
+          console.error("Error checking user status:", error)
+          router.push("/login")
+        }
+      } else if (status === "unauthenticated") {
+        router.push("/login")
+      }
+      setIsLoading(false)
     }
-  console.log(ads)
-    fetchAds()
-  }, [ads])
+
+    checkUserStatus()
+  }, [status, router])
+
+  const fetchAds = async () => {
+    const query = `*[_type == "advertisement" && isActive == true && startDate <= $now && endDate >= $now]`
+    const params = { now: new Date().toISOString() }
+    const result = await client.fetch(query, params)
+    setAds(result)
+    setIsLoading(false)
+  }
+
+  if (isLoading) {
+    return <FancyLoadingScreen />
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -50,7 +84,7 @@ export default function AdvertisementPage() {
               {ad.image && (
                 <div className="relative h-48 mb-4">
                   <Image
-                    src={`https://cdn.sanity.io/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXTPUBLICSANITYDATASET}/${ad.image.asset._ref.replace('image-', '').replace('-jpg', '.jpg')}`}
+                    src={`https://cdn.sanity.io/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXTPUBLICSANITYDATASET}/${ad.image.asset._ref.replace("image-", "").replace("-jpg", ".jpg")}`}
                     alt={ad.title}
                     layout="fill"
                     objectFit="cover"
@@ -74,3 +108,4 @@ export default function AdvertisementPage() {
     </div>
   )
 }
+

@@ -20,19 +20,19 @@ export default function LoginPage() {
   const router = useRouter()
   const { status } = useSession()
 
-  const validatePassword = (password: string) => {
+  const validatePassword = (password) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/
     return regex.test(password)
   }
 
-  const getPasswordStrength = (password: string) => {
+  const getPasswordStrength = (password) => {
     if (password.length === 0) return ""
     if (password.length < 6) return "Weak"
     if (validatePassword(password)) return "Strong"
     return "Medium"
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setError("")
     setMessage("")
@@ -44,7 +44,11 @@ export default function LoginPage() {
         password,
       })
       if (result?.error) {
-        setError(result.error === "CredentialsSignin" ? "Invalid email or password" : result.error)
+        if (result.error === "User not verified") {
+          setError("Please verify your email before logging in.")
+        } else {
+          setError(result.error === "CredentialsSignin" ? "Invalid email or password" : result.error)
+        }
       } else {
         router.push("/payment")
       }
@@ -61,7 +65,7 @@ export default function LoginPage() {
         })
         const data = await res.json()
         if (res.ok) {
-          setMessage("Account created successfully. Please log in.")
+          setMessage("Account created successfully. Please check your email for verification.")
           setIsLogin(true)
         } else {
           setError(data.message || "Registration failed")
@@ -201,3 +205,4 @@ export default function LoginPage() {
     </div>
   )
 }
+

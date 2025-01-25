@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { createClient } from "@sanity/client"
 import bcrypt from "bcryptjs"
 import nodemailer from "nodemailer"
+import crypto from "crypto"
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -20,7 +21,7 @@ const transporter = nodemailer.createTransport({
   },
 })
 
-export async function POST(req: Request) {
+export async function POST(req) {
   try {
     const { name, email, password } = await req.json()
 
@@ -32,7 +33,7 @@ export async function POST(req: Request) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10)
-    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString()
+    const verificationToken = crypto.randomBytes(32).toString("hex")
 
     // Create new user
     await client.create({
@@ -42,28 +43,27 @@ export async function POST(req: Request) {
       password: hashedPassword,
       hasPaid: false,
       isVerified: false,
-      verificationCode,
+      verificationToken,
     })
 
     // Send verification email
+    const verificationLink = `${process.env.NEXTAUTH_URL}/verify-email?token=${verificationToken}`
     await transporter.sendMail({
       from: process.env.EMAIL_FROM,
       to: email,
       subject: "Verify Your Email",
       html: `
-        <p>Your verification code is: <strong>${verificationCode}</strong></p>
-        <p>Please enter this code on the verification page to complete your registration.</p>
+        <p>Please click the link below to verify your email:</p>
+        <a href="${verificationLink}">${verificationLink}</a>
       `,
     })
 
     return NextResponse.json({
-      message: "User registered successfully. Please check your email for the verification code.",
+      message: "User registered successfully. Please check your email for the verification link.",
     })
   } catch (error) {
     console.error("Registration error:", error)
-    if (error instanceof Error) {
-      return NextResponse.json({ message: `Error registering user: ${error.message}` }, { status: 500 })
-    }
     return NextResponse.json({ message: "An unexpected error occurred during registration" }, { status: 500 })
   }
 }
+
