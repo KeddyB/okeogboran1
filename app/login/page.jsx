@@ -17,6 +17,9 @@ export default function LoginPage() {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [error, setError] = useState("")
   const [message, setMessage] = useState("")
+  const [isRegistering, setIsRegistering] = useState(false)
+  const [isGoogleSigningIn, setIsGoogleSigningIn] = useState(false)
+  const [isLoggingIn, setIsLoggingIn] = useState(false) // Added new state variable
   const router = useRouter()
   const { status } = useSession()
 
@@ -38,6 +41,7 @@ export default function LoginPage() {
     setMessage("")
 
     if (isLogin) {
+      setIsLoggingIn(true) // Added setIsLoggingIn(true)
       const result = await signIn("credentials", {
         redirect: false,
         email,
@@ -52,9 +56,12 @@ export default function LoginPage() {
       } else {
         router.push("/payment")
       }
+      setIsLoggingIn(false) // Added setIsLoggingIn(false)
     } else {
+      setIsRegistering(true)
       if (password !== confirmPassword) {
         setError("Passwords don't match")
+        setIsRegistering(false)
         return
       }
       try {
@@ -73,12 +80,18 @@ export default function LoginPage() {
       } catch (error) {
         setError("An error occurred during registration. Please try again.")
         console.error("Registration error:", error)
+      } finally {
+        setIsRegistering(false)
       }
     }
   }
 
   const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "/payment" })
+    setIsGoogleSigningIn(true)
+    signIn("google", { callbackUrl: "/payment" }).catch((error) => {
+      console.error("Google sign-in error:", error)
+      setIsGoogleSigningIn(false)
+    })
   }
 
   useEffect(() => {
@@ -178,8 +191,15 @@ export default function LoginPage() {
             </div>
           )}
           <div className="flex items-baseline justify-between mt-4">
-            <Button type="submit" className="bg-primary text-primary-foreground">
-              {isLogin ? "Login" : "Register"}
+            <Button
+              type="submit"
+              className="bg-primary text-primary-foreground"
+              disabled={isRegistering || isLoggingIn}
+            >
+              {" "}
+              {/* Updated disabled prop */}
+              {isLogin ? (isLoggingIn ? "Logging in..." : "Login") : isRegistering ? "Registering..." : "Register"}{" "}
+              {/* Updated button text */}
             </Button>
             <Button type="button" variant="link" onClick={() => setIsLogin(!isLogin)} className="text-sm text-primary">
               {isLogin ? "Create an account" : "Already have an account?"}
@@ -194,10 +214,14 @@ export default function LoginPage() {
           </div>
         )}
         <div className="mt-4">
-          <Button onClick={handleGoogleSignIn} className="w-full bg-secondary text-secondary-foreground">
+          <Button
+            onClick={handleGoogleSignIn}
+            className="w-full bg-secondary text-secondary-foreground"
+            disabled={isGoogleSigningIn}
+          >
             <div className="flex justify-center items-center h-full">
               <FaGoogle />
-              &nbsp;Sign in with Google
+              &nbsp;{isGoogleSigningIn ? "Signing in..." : "Sign in with Google"}
             </div>
           </Button>
         </div>
@@ -205,4 +229,3 @@ export default function LoginPage() {
     </div>
   )
 }
-
