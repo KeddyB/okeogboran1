@@ -1,4 +1,3 @@
-import  type {NextAuthOptions} from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { createClient } from '@sanity/client'
@@ -13,11 +12,11 @@ const client = createClient({
 })
 
 
-export const authConfig: NextAuthOptions = {
+export const authConfig = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     CredentialsProvider({
       name: 'Credentials',
@@ -102,9 +101,9 @@ export const authConfig: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session?.user) {
-        session.user.id = token.id as string
-        session.user.hasPaid = token.hasPaid as boolean
-        session.user.isVerified = token.isVerified as boolean
+        session.user.id = token.id
+        session.user.hasPaid = token.hasPaid
+        session.user.isVerified = token.isVerified
       }
       return session
     }
