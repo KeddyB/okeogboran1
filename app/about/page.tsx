@@ -60,7 +60,7 @@ export default function About() {
         {/* Newspaper title */}
         <div className="text-center py-8 border-b-2 border-border">
           <h1 className="text-4xl font-bold">
-            <span className="text-primary">ABOUT</span> OKEOGBORAN
+            <span className="text-primary">OKEOGBORAN</span>HOME OF DIVERSE PERSONALITIES
           </h1>
           <p className="text-sm mt-2 text-muted-foreground">Supare Akoko, Ondo State, Nigeria</p>
         </div>
