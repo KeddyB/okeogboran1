@@ -2,6 +2,9 @@
 import type {Configuration} from "webpack"
 
 const nextConfig = {
+  images:{
+    domains: ['cdn.sanity.io']
+  },
   reactStrictMode: true,
   webpack: (config: Configuration, { isServer }: {isServer: boolean}) => {
     if (!isServer) {

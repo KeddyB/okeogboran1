@@ -6,7 +6,8 @@ import { useEffect } from "react"
 import { Header } from "./components/header"
 import { MainContent } from "./components/main-content"
 import { Footer } from "./components/footer"
-import { FancyLoadingScreen } from "@/components/fancy-loading-screen" // Import the FancyLoadingScreen component
+import { FancyLoadingScreen } from "@/components/fancy-loading-screen"
+import { Advertisement } from "@/components/Advertisement"
 
 export default function Home() {
   const { data: session, status } = useSession()
@@ -34,6 +35,7 @@ export default function Home() {
       <Header />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <MainContent />
+        <Advertisement />
       </div>
       <Footer />
     </div>

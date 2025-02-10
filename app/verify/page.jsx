@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useSession } from "next-auth/react"
-// Assuming FancyLoadingScreen is imported elsewhere or defined in this file.  If not, add import statement.
-import { FancyLoadingScreen } from "@/components/fancy-loading-screen" // Or wherever it's located
+import { FancyLoadingScreen } from "./FancyLoadingScreen" // Or wherever it's located
 
 export default function VerifyPage() {
   const [verificationCode, setVerificationCode] = useState("")

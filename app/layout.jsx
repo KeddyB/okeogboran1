@@ -3,14 +3,15 @@
 import { AuthProvider } from "@/components/auth-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LayoutWrapper } from "@/components/layout-wrapper"
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 import { useSession } from "next-auth/react"
 import { useRouter, usePathname } from "next/navigation"
 import { useEffect } from "react"
 import { FancyLoadingScreen } from "@/components/fancy-loading-screen"
 
-function AuthWrapper({ children }: { children: React.ReactNode }) {
-  const { status } = useSession()
+function AuthWrapper({ children }) {
+  const { data: session, status } = useSession()
   const router = useRouter()
   const pathname = usePathname()
 
@@ -52,8 +53,6 @@ function AuthWrapper({ children }: { children: React.ReactNode }) {
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -62,6 +61,7 @@ export default function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
             <AuthWrapper>
               <LayoutWrapper>{children}</LayoutWrapper>
+              <Toaster />
             </AuthWrapper>
           </ThemeProvider>
         </AuthProvider>
@@ -69,3 +69,4 @@ export default function RootLayout({
     </html>
   )
 }
+
