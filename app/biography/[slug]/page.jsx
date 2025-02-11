@@ -3,16 +3,16 @@
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import Link from "next/link"
 import { useSession } from "next-auth/react"
 import { FancyLoadingScreen } from "@/components/fancy-loading-screen"
-import { fetchAdvertisementBySlug } from "@/lib/api"
-import { ArrowLeft, ExternalLink } from "lucide-react"
+import { fetchBiographyBySlug } from "@/lib/api"
+import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
 import PortableText from "@/components/PortableText"
 
-export default function AdvertisementDetail({ params: paramsPromise }) {
+export default function BiographyDetailPage({ params: paramsPromise }) {
   const params = React.use(paramsPromise)
-  const [ad, setAd] = useState(null)
+  const [biography, setBiography] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const { data: session, status } = useSession()
   const router = useRouter()
@@ -29,7 +29,7 @@ export default function AdvertisementDetail({ params: paramsPromise }) {
           } else if (!data.hasPaid) {
             router.push("/payment")
           } else {
-            loadAd()
+            loadBiography()
           }
         } catch (error) {
           console.error("Error checking user status:", error)
@@ -43,12 +43,12 @@ export default function AdvertisementDetail({ params: paramsPromise }) {
     checkUserStatus()
   }, [status, router])
 
-  const loadAd = async () => {
+  const loadBiography = async () => {
     try {
-      const advertisement = await fetchAdvertisementBySlug(params.slug)
-      setAd(advertisement)
+      const bio = await fetchBiographyBySlug(params.slug)
+      setBiography(bio)
     } catch (error) {
-      console.error("Error fetching advertisement:", error)
+      console.error("Error fetching biography:", error)
     } finally {
       setIsLoading(false)
     }
@@ -58,20 +58,20 @@ export default function AdvertisementDetail({ params: paramsPromise }) {
     return <FancyLoadingScreen />
   }
 
-  if (!ad) {
+  if (!biography) {
     return (
       <div className="min-h-screen bg-background">
         <div className="max-w-4xl mx-auto px-4 py-8">
           <Link
-            href="/advertisement"
+            href="/biography"
             className="inline-flex items-center text-primary hover:text-primary/90 transition-colors mb-8"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to advertisements
+            Back to biographies
           </Link>
           <div className="text-center">
-            <h1 className="text-2xl font-bold mb-4">Advertisement not found</h1>
-            <p className="text-muted-foreground">The advertisement you're looking for doesn't exist.</p>
+            <h1 className="text-2xl font-bold mb-4">Biography not found</h1>
+            <p className="text-muted-foreground">The biography you're looking for doesn't exist.</p>
           </div>
         </div>
       </div>
@@ -82,44 +82,26 @@ export default function AdvertisementDetail({ params: paramsPromise }) {
     <div className="min-h-screen bg-background">
       <article className="max-w-4xl mx-auto px-4 py-8">
         <Link
-          href="/advertisement"
+          href="/biography"
           className="inline-flex items-center text-primary hover:text-primary/90 transition-colors mb-8"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to advertisements
+          Back to biographies
         </Link>
 
         <header className="mb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">{ad.title}</h1>
-          {ad.description && <p className="text-xl text-muted-foreground mb-4">{ad.description}</p>}
-          <time className="text-sm text-muted-foreground" dateTime={ad.startDate}>
-            {new Date(ad.startDate).toLocaleDateString()}
-          </time>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4">Biography of {biography.name}</h1>
         </header>
 
-        {ad.image && (
+        {biography.image && (
           <div className="relative aspect-video overflow-hidden rounded-xl mb-8">
-            <Image src={ad.image || "/placeholder.svg"} alt={ad.title} fill className="object-cover" />
+            <Image src={biography.image || "/placeholder.svg"} alt={biography.name} layout="fill" objectFit="cover" />
           </div>
         )}
 
-        {ad.content && (
-          <div className="prose dark:prose-invert max-w-none mb-8">
-            <PortableText value={ad.content} />
-          </div>
-        )}
-
-        {ad.link && (
-          <a
-            href={ad.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center px-6 py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-          >
-            Learn More
-            <ExternalLink className="ml-2 h-4 w-4" />
-          </a>
-        )}
+        <div className="prose dark:prose-invert max-w-none mb-8">
+          <PortableText value={biography.content} />
+        </div>
       </article>
     </div>
   )
