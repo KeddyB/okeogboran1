@@ -1,18 +1,19 @@
 "use client"
 
-// import { useState } from "react"
+import { useState } from "react"
 import { useSession, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { User, LogOut, Megaphone, Book, Menu } from "lucide-react"
 import Link from "next/link"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { cn } from "@/lib/utils"
 
 export function AuthHeader() {
   const { data: session } = useSession()
-  // const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
-  // const toggleMenu = () => setIsOpen(!isOpen)
+  const toggleMenu = () => setIsOpen(!isOpen)
 
   const menuItems = [
     { href: "/advertisement", icon: Megaphone, label: "Advertisements" },
@@ -30,26 +31,36 @@ export function AuthHeader() {
           <div className="hidden md:flex space-x-2">
             {menuItems.map((item) => (
               <Link key={item.href} href={item.href}>
-                <Button >
+                <Button variant="ghost" size="icon">
                   <item.icon className="h-5 w-5" />
                 </Button>
               </Link>
             ))}
-            <Button onClick={() => signOut()} variant="outline" >
+            <Button onClick={() => signOut()} variant="outline" size="icon">
               <LogOut className="h-5 w-5" />
             </Button>
           </div>
           <div className="md:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button>
+                <Button variant="outline" size="icon">
                   <Menu className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent
+                align="end"
+                className={cn(
+                  "z-50 min-w-[8rem] overflow-hidden rounded-md border p-1 text-foreground shadow-md",
+                  "bg-background dark:bg-background",
+                  "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+                )}
+              >
                 {menuItems.map((item) => (
                   <DropdownMenuItem key={item.href} asChild>
-                    <Link href={item.href} className="flex items-center space-x-2">
+                    <Link
+                      href={item.href}
+                      className="flex items-center space-x-2 text-foreground hover:text-primary hover:bg-accent rounded-sm px-2 py-1.5 text-sm"
+                    >
                       <item.icon className="h-4 w-4" />
                       <span>{item.label}</span>
                     </Link>
@@ -57,7 +68,7 @@ export function AuthHeader() {
                 ))}
                 <DropdownMenuItem onClick={() => signOut()}>
                   <LogOut className="h-4 w-4 mr-2" />
-                  <span>Sign Out</span>
+                  <span className="text-foreground hover:text-primary">Sign Out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

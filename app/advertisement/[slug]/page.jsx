@@ -121,6 +121,7 @@ export default function AdvertisementDetail({ params: paramsPromise }) {
           </a>
         )}
       </article>
+      <Footer /> 
     </div>
   )
 }

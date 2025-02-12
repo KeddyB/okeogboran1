@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react"
 import { FancyLoadingScreen } from "@/components/fancy-loading-screen"
 import { BiographyCard } from "@/components/biography-card"
 import { fetchBiographies } from "@/lib/api"
+import { Footer } from "../components/footer"
 
 export default function BiographyPage() {
   const [biographies, setBiographies] = useState([])
@@ -64,6 +65,7 @@ export default function BiographyPage() {
           ))}
         </div>
       </div>
+      <Footer /> 
     </div>
   )
 }

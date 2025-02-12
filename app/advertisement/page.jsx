@@ -9,6 +9,7 @@ import { FancyLoadingScreen } from "@/components/fancy-loading-screen"
 import { ContactForm } from "@/components/contact-form"
 import { fetchAdvertisements } from "@/lib/api"
 import { formatDate } from "@/lib/utils"
+import { Footer } from "../components/footer"
 
 export default function AdvertisementPage() {
   const [ads, setAds] = useState([])
@@ -177,6 +178,7 @@ export default function AdvertisementPage() {
           </div>
         )}
       </div>
+      <Footer /> 
     </div>
   )
 }
