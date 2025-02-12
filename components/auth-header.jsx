@@ -24,10 +24,14 @@ export function AuthHeader() {
   return (
     <header className="bg-primary text-primary-foreground p-4 flex justify-between items-center">
       <Link href="/" className="flex items-center space-x-2">
-        <span className="text-2xl font-bold">Okeogboran</span>
+        <span className="text-xl sm:text-2xl font-bold">Okeogboran</span>
       </Link>
       {session && (
         <div className="flex items-center space-x-4">
+          <Avatar>
+            <AvatarImage src={session.user.image} alt={session.user.name} />
+            <AvatarFallback>{session.user.name ? session.user.name[0].toUpperCase() : "U"}</AvatarFallback>
+          </Avatar>
           <div className="hidden md:flex space-x-2">
             {menuItems.map((item) => (
               <Link key={item.href} href={item.href}>
@@ -44,7 +48,7 @@ export function AuthHeader() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon">
-                  <Menu className="h-5 w-5" />
+                  <Menu className="h-4 w-3" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -73,10 +77,7 @@ export function AuthHeader() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <Avatar>
-            <AvatarImage src={session.user.image} alt={session.user.name} />
-            <AvatarFallback>{session.user.name ? session.user.name[0].toUpperCase() : "U"}</AvatarFallback>
-          </Avatar>
+          
         </div>
       )}
     </header>
