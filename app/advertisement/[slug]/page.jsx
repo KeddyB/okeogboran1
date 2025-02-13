@@ -9,6 +9,7 @@ import { FancyLoadingScreen } from "@/components/fancy-loading-screen"
 import { fetchAdvertisementBySlug } from "@/lib/api"
 import { ArrowLeft, ExternalLink } from "lucide-react"
 import PortableText from "@/components/PortableText"
+import { Footer } from "@/app/components/footer"
 
 export default function AdvertisementDetail({ params: paramsPromise }) {
   const params = React.use(paramsPromise)
