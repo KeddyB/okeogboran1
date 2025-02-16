@@ -3,7 +3,7 @@ import type {Configuration} from "webpack"
 
 const nextConfig = {
   images:{
-    domains: ['cdn.sanity.io', "lh3.googleusercontent.com"]
+    domains: ['cdn.sanity.io', "lh3.googleusercontent.com", 'api.mux.com']
   },
   reactStrictMode: true,
   webpack: (config: Configuration, { isServer }: {isServer: boolean}) => {

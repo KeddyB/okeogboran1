@@ -176,6 +176,7 @@ export default function Economy () {
                   <li>Adebisi Adeleke Samuel aka 7 - 7 </li>
                   <li>Olorunfemi Omolade aka Ajaloko</li>
                   <li>Babatuyi Moses aka Lulu aka Occasion </li>
+                  <li>Raphael Oludele aka Occasion </li>
                   <li>Another group also came into existence ably led by Ogunleye Ojo aka Wakuku In addition to the above there were others engaged in  others ventures of significance amongst which were </li>
                 </ul>
                 <h3 className="text-lg font-bold mb-2 mt-4">TEACHERS OF REPUTE</h3>
@@ -201,6 +202,7 @@ export default function Economy () {
                   <li>Late Babatuyi Johnson</li>
                   <li>Faborode Idowu Festus </li>
                   <li>Arowosoye Bankole</li>
+                  <li>Sola Alabi</li>
                 </ul>
                 <h3 className="text-lg font-bold mb-2 mt-4">HIGH RANKING CONTRACTORS/ BUSINESSMEN</h3>
                 <ul className="list-disc list-inside space-y-2">                 

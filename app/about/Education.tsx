@@ -63,7 +63,7 @@ export default function Education (){
                   <li>University lecturer/ professor : Prof M O Faborode</li>
                   <li>University vice chancellor : Prof M O Faborode</li>
                   <li>National Table tennis coach : Bayode Skiad</li>
-                  <li>Late Babatuyi aka Archipe : first trained Town planner/surveyor in Supare </li>
+                  <li>Late Babatuyi  aka Archipe : first trained Town planner/surveyor in Supare </li>
                   <li>Alagbara Rokan : first forestry officer in Supare.</li>
                   <li>Eddy Ibukun aka Eddy Famous was the first draughtsman in Supare handling survey of land and drawing building plans. </li>
                 </ul>

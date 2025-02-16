@@ -1,9 +1,13 @@
-  import { Calendar, MapPin, Users } from 'lucide-react'
-  import Image from "next/image"
-  import {Button} from "@/components/ui/button";
-  import Link from "next/link"
+"use client"
 
-  export function MainContent() {
+import { Calendar, MapPin, Users } from 'lucide-react'
+import Image from "next/image"
+import {Button} from "@/components/ui/button";
+import Link from "next/link"
+import {MuxVideo} from "@/components/muxvideo"
+import {fetchVideo} from "@/lib/api";
+
+  export  function MainContent() {
     return (
       <main className="max-w-7xl mx-auto px-4 py-16">
       {/* Newspaper Title */}
@@ -90,7 +94,26 @@
       that are both functional and beautiful, attracting collectors from around the region.
       </p>
       </div>
+      {/* Video Section */}
+      <div className="flex justify-center items-center w-full">
+        <div className="relative w-full max-w-2xl aspect-video">
+          <iframe 
+            className="absolute top-0 left-0 w-full h-full rounded-lg mt-4"
+            width="560" 
+            height="315" 
+            src="https://www.youtube.com/embed/tTz2QIe3nOg?si=RTbbfyUhOk5WKDPn" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+
+      {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/tTz2QIe3nOg?si=RTbbfyUhOk5WKDPn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen className='pt-4'></iframe> */}
       <div className="text-center mt-8">
+        
       <Button variant="outline">
       <Link href="/about">
       Explore Our History
@@ -98,7 +121,7 @@
       </Button>
       </div>
       </article>
-      
+
       {/* Major Families Section */}
       <article className="mb-16">
       <h3 className="font-serif text-3xl mb-6 border-b border-neutral-200 pb-2">
