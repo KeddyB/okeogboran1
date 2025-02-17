@@ -21,7 +21,7 @@ const renderBlock = (block) => {
     const level = style.replace(/[^\d]/g, "")
     const Tag = `h${level}`
     return (
-      <Tag key={block._key} className={`text-2xl font-bold my-4`}>
+      <Tag key={block._key} className={`text-justify font-bold my-4`}>
         {block.children.map(renderSpan)}
       </Tag>
     )

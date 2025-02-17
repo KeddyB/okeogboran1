@@ -100,7 +100,7 @@ export default function BiographyDetailPage({ params: paramsPromise }) {
         )}
 
         <div className="prose dark:prose-invert max-w-none mb-8">
-          <PortableText value={biography.content} />
+          <PortableText value={biography.content} className="text-2xl text-justify" />
         </div>
       </article>
     </div>

@@ -9,7 +9,7 @@ export function BiographyCard({ biography }) {
           <Image src={biography.image || "/placeholder.svg"} alt={biography.name} layout="fill" objectFit="cover" />
         </div>
         <div className="p-4">
-          <h2 className="text-lg font-semibold text-foreground">Biography of {biography.name}</h2>
+          <h2 className="text-lg font-semibold text-foreground">{biography.name}</h2>
         </div>
       </div>
     </Link>
