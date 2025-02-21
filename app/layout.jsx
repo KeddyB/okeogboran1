@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react"
 import { useRouter, usePathname } from "next/navigation"
 import { useEffect } from "react"
 import { FancyLoadingScreen } from "@/components/fancy-loading-screen"
+import { CookieConsent } from "./components/cookie-consent"
 
 function AuthWrapper({ children }) {
   const { data: session, status } = useSession()
@@ -16,8 +17,8 @@ function AuthWrapper({ children }) {
   const pathname = usePathname()
 
   useEffect(() => {
-    const protectedRoutes = ["/", "/about", "/advertisement", "/payment"]
-    const isProtectedRoute = protectedRoutes.includes(pathname)
+    const publicRoutes = ["/login", "/verify-email", "/payment", "/verify-payment"]
+    const isPublicRoute = publicRoutes.includes(pathname)
 
     const checkUserStatus = async () => {
       if (status === "authenticated") {
@@ -27,16 +28,18 @@ function AuthWrapper({ children }) {
 
           if (!data.isVerified && pathname !== "/verify-email") {
             router.push("/verify-email")
-          } else if (data.isVerified && !data.hasPaid && pathname !== "/payment" && isProtectedRoute) {
-            router.push("/payment")
           } else if (!data.isVerified && !data.hasPaid && pathname === "/advertisement") {
             router.push("/verify-email")
+          } else if (!data.hasPaid && pathname !== "/payment") {
+            router.push("/payment")
+          } else if (data.hasPaid && pathname === "/payment") {
+            router.push("/")
           }
         } catch (error) {
           console.error("Error checking user status:", error)
           router.push("/login")
         }
-      } else if (status === "unauthenticated" && isProtectedRoute) {
+      } else if (status === "unauthenticated" && !isPublicRoute) {
         router.push("/login")
       }
     }
@@ -61,6 +64,7 @@ export default function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
             <AuthWrapper>
               <LayoutWrapper>{children}</LayoutWrapper>
+              <CookieConsent />
               <Toaster />
             </AuthWrapper>
           </ThemeProvider>
