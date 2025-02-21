@@ -23,7 +23,7 @@ export async function POST(req) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
-    const { transaction_id, tx_ref, status } = await req.json()
+    const { transaction_id, tx_ref } = await req.json()
 
     if (!transaction_id && !tx_ref) {
       return NextResponse.json({ message: "Transaction reference not provided" }, { status: 400 })
