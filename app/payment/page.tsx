@@ -133,7 +133,7 @@ export default function PaymentPage() {
                 <div className="rounded-lg border p-4 space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="font-medium">Premium Access</span>
-                    <span className="font-bold">₦100</span>
+                    <span className="font-bold">₦1000</span>
                   </div>
                   <div className="text-sm text-muted-foreground">
                     <ul className="space-y-2">
