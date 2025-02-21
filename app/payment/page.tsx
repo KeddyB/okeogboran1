@@ -34,7 +34,7 @@ export default function PaymentPage() {
       const config: FlutterwaveConfig = {
         public_key: process.env.NEXT_PUBLIC_FLUTTERWAVE_PUBLIC_KEY!,
         tx_ref: `tx-${Date.now()}`,
-        amount: 1000,
+        amount: 100,
         currency: "NGN",
         payment_options: "card,banktransfer,ussd",
         meta: {
@@ -133,7 +133,7 @@ export default function PaymentPage() {
                 <div className="rounded-lg border p-4 space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="font-medium">Premium Access</span>
-                    <span className="font-bold">₦1,000</span>
+                    <span className="font-bold">₦100</span>
                   </div>
                   <div className="text-sm text-muted-foreground">
                     <ul className="space-y-2">
@@ -175,7 +175,7 @@ export default function PaymentPage() {
                 ) : (
                   <>
                     <CreditCard className="mr-2 h-4 w-4" />
-                    Pay ₦1,000
+                    Pay ₦100
                   </>
                 )}
               </Button>
