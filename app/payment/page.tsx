@@ -181,6 +181,11 @@ export default function PaymentPage() {
               </Button>
             )}
           </CardFooter>
+          <div>
+            <p className="text-sm text-center text-muted-foreground p-4">
+              Ignore if you already made payment. If you have any questions or need assistance, please contact support.
+            </p>
+          </div>
         </Card>
       </div>
     </>
