@@ -7,47 +7,68 @@ import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 import { useSession } from "next-auth/react"
 import { useRouter, usePathname } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { FancyLoadingScreen } from "@/components/fancy-loading-screen"
 import { CookieConsent } from "./components/cookie-consent"
+
+// Define public routes that don't require authentication
+const PUBLIC_ROUTES = ["/login", "/verify-email", "/reset-password", "/forgot-password"]
 
 function AuthWrapper({ children }) {
   const { data: session, status } = useSession()
   const router = useRouter()
   const pathname = usePathname()
+  const [isLoading, setIsLoading] = useState(true)
+  const [userChecked, setUserChecked] = useState(false)
 
   useEffect(() => {
-    const publicRoutes = ["/login", "/verify-email", "/payment", "/verify-payment"]
-    const isPublicRoute = publicRoutes.includes(pathname)
+    // Only run this effect when session status changes or pathname changes
+    if (status === "loading") return
+
+    const isPublicRoute = PUBLIC_ROUTES.includes(pathname)
 
     const checkUserStatus = async () => {
+      setIsLoading(true)
+
       if (status === "authenticated") {
         try {
           const res = await fetch("/api/auth/user-status")
           const data = await res.json()
 
+          // Store the result in sessionStorage to avoid repeated API calls
+          sessionStorage.setItem("userStatus", JSON.stringify(data))
+
           if (!data.isVerified && pathname !== "/verify-email") {
             router.push("/verify-email")
-          } else if (!data.isVerified && !data.hasPaid && pathname === "/advertisement") {
-            router.push("/verify-email")
-          } else if (!data.hasPaid && pathname !== "/payment") {
+          } else if (data.isVerified && !data.hasPaid && pathname !== "/payment") {
             router.push("/payment")
           } else if (data.hasPaid && pathname === "/payment") {
             router.push("/")
           }
         } catch (error) {
           console.error("Error checking user status:", error)
-          router.push("/login")
+          if (!isPublicRoute) {
+            router.push("/login")
+          }
+        } finally {
+          setUserChecked(true)
+          setIsLoading(false)
         }
       } else if (status === "unauthenticated" && !isPublicRoute) {
         router.push("/login")
+        setUserChecked(true)
+        setIsLoading(false)
+      } else {
+        setUserChecked(true)
+        setIsLoading(false)
       }
     }
 
     checkUserStatus()
-  }, [status, router, pathname])
+  }, [status, pathname, router])
 
-  if (status === "loading") {
+  // Show loading screen only during initial check
+  if ((status === "loading" || isLoading) && !userChecked) {
     return <FancyLoadingScreen />
   }
 

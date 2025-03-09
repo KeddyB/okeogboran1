@@ -1,30 +1,25 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useSession, signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { FancyLoadingScreen } from "@/components/fancy-loading-screen"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Check, CreditCard, Loader2 } from "lucide-react"
+import { Check, Loader2 } from "lucide-react"
 import Script from "next/script"
 import type { FlutterwaveConfig, FlutterwaveResponse } from "@/types/flutterwave"
+import { FaCreditCard } from "react-icons/fa"
 
 export default function PaymentPage() {
-  const { data: session, status } = useSession()
+  const { data: session } = useSession()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState("")
   const [isScriptLoaded, setIsScriptLoaded] = useState(false)
   const [paymentSuccess, setPaymentSuccess] = useState(false)
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login")
-    } else if (session?.user?.hasPaid) {
-      router.push("/")
-    }
-  }, [status, router, session])
+  // No need to check authentication or payment status here
+  // The AuthWrapper in layout.tsx handles all redirects
 
   const handlePayment = () => {
     if (!session?.user) return
@@ -55,7 +50,6 @@ export default function PaymentPage() {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                mode: "no-cors",
               },
               body: JSON.stringify({
                 transaction_id: response.transaction_id,
@@ -94,10 +88,6 @@ export default function PaymentPage() {
     }
   }
 
-  if (status === "loading" || !session) {
-    return <FancyLoadingScreen />
-  }
-
   return (
     <>
       <Script
@@ -133,7 +123,7 @@ export default function PaymentPage() {
                 <div className="rounded-lg border p-4 space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="font-medium">Premium Access</span>
-                    <span className="font-bold">₦1000</span>
+                    <span className="font-bold">₦1,000</span>
                   </div>
                   <div className="text-sm text-muted-foreground">
                     <ul className="space-y-2">
@@ -167,25 +157,20 @@ export default function PaymentPage() {
           <CardFooter>
             {!paymentSuccess && (
               <Button onClick={handlePayment} disabled={isLoading || !isScriptLoaded} className="w-full">
+                <div>
                 {isLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Processing...
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />&nbsp;Processing...
                   </>
                 ) : (
                   <>
-                    <CreditCard className="mr-2 h-4 w-4" />
-                    Pay ₦1000
+                    <FaCreditCard className="mr-2 h-4 w-4" />&nbsp;Pay ₦1,000
                   </>
                 )}
+                </div>
               </Button>
             )}
           </CardFooter>
-          <div>
-            <p className="text-sm text-center text-muted-foreground p-4">
-              Ignore if you already made payment. If you have any questions or need assistance, please contact support.
-            </p>
-          </div>
         </Card>
       </div>
     </>
