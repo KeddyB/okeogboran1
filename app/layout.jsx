@@ -10,6 +10,7 @@ import { useRouter, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { FancyLoadingScreen } from "@/components/fancy-loading-screen"
 import { CookieConsent } from "./components/cookie-consent"
+import { ErrorBoundary } from "@/components/error-boundary"
 
 // Define public routes that don't require authentication
 const PUBLIC_ROUTES = ["/login", "/verify-email", "/reset-password", "/forgot-password"]
@@ -75,21 +76,25 @@ function AuthWrapper({ children }) {
   return <>{children}</>
 }
 
-export default function RootLayout({
-  children,
-}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Okeogboran - Discover the charm of our enchanting town" />
+      </head>
       <body>
-        <AuthProvider>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-            <AuthWrapper>
-              <LayoutWrapper>{children}</LayoutWrapper>
-              <CookieConsent />
-              <Toaster />
-            </AuthWrapper>
-          </ThemeProvider>
-        </AuthProvider>
+        <ErrorBoundary>
+          <AuthProvider>
+            <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+              <AuthWrapper>
+                <LayoutWrapper>{children}</LayoutWrapper>
+                <CookieConsent />
+                <Toaster />
+              </AuthWrapper>
+            </ThemeProvider>
+          </AuthProvider>
+        </ErrorBoundary>
       </body>
     </html>
   )

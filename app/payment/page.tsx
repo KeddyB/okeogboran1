@@ -5,10 +5,9 @@ import { useSession, signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Check, Loader2 } from "lucide-react"
+import { Check, CreditCard, Loader2 } from "lucide-react"
 import Script from "next/script"
 import type { FlutterwaveConfig, FlutterwaveResponse } from "@/types/flutterwave"
-import { FaCreditCard } from "react-icons/fa"
 
 export default function PaymentPage() {
   const { data: session } = useSession()
@@ -17,9 +16,6 @@ export default function PaymentPage() {
   const [message, setMessage] = useState("")
   const [isScriptLoaded, setIsScriptLoaded] = useState(false)
   const [paymentSuccess, setPaymentSuccess] = useState(false)
-
-  // No need to check authentication or payment status here
-  // The AuthWrapper in layout.tsx handles all redirects
 
   const handlePayment = () => {
     if (!session?.user) return
@@ -128,16 +124,16 @@ export default function PaymentPage() {
                   <div className="text-sm text-muted-foreground">
                     <ul className="space-y-2">
                       <li className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-green-500" />
-                        Full access to all content
+                        <Check className="h-4 w-4 min-w-[16px] mr-2 text-green-500" />
+                        <span>Full access to all content</span>
                       </li>
                       <li className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-green-500" />
-                        Exclusive features
+                        <Check className="h-4 w-4 min-w-[16px] mr-2 text-green-500" />
+                        <span>Exclusive features</span>
                       </li>
                       <li className="flex items-center">
-                        <Check className="h-4 w-4 mr-2 text-green-500" />
-                        One-time payment
+                        <Check className="h-4 w-4 min-w-[16px] mr-2 text-green-500" />
+                        <span>One-time payment</span>
                       </li>
                     </ul>
                   </div>
@@ -157,17 +153,17 @@ export default function PaymentPage() {
           <CardFooter>
             {!paymentSuccess && (
               <Button onClick={handlePayment} disabled={isLoading || !isScriptLoaded} className="w-full">
-                <div>
                 {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />&nbsp;Processing...
-                  </>
+                  <div className="flex items-center justify-center">
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <span>Processing...</span>
+                  </div>
                 ) : (
-                  <>
-                    <FaCreditCard className="mr-2 h-4 w-4" />&nbsp;Pay ₦1,000
-                  </>
+                  <div className="flex items-center justify-center">
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    <span>Pay ₦1,000</span>
+                  </div>
                 )}
-                </div>
               </Button>
             )}
           </CardFooter>
