@@ -103,7 +103,7 @@ export function MainContent() {
           </p>
         </div>
         {/* Video Section */}
-        <div className="flex justify-center items-center w-full">
+        <div className="flex justify-center items-center w-full mt-8">
           <div className="relative w-full max-w-2xl aspect-video">
             <iframe
               src="https://drive.google.com/file/d/1BHy00HzCHNPkjryuR1joGR7dHoIKp9OD/preview"
