@@ -104,12 +104,14 @@ export function MainContent() {
         </div>
         {/* Video Section */}
         <div className="flex justify-center items-center w-full">
-        <div className="relative w-full max-w-2xl aspect-video">
-         <iframe src="https://drive.google.com/file/d/1BHy00HzCHNPkjryuR1joGR7dHoIKp9OD/preview" width="640" height="480" allow="autoplay"className='block auto pb-8 rounded-md'></iframe>
+          <div className="relative w-full max-w-2xl aspect-video">
+            <iframe
+              src="https://drive.google.com/file/d/1BHy00HzCHNPkjryuR1joGR7dHoIKp9OD/preview"
+              allow="autoplay"
+              className="absolute top-0 left-0 w-full h-full rounded-md"
+            ></iframe>
+          </div>
         </div>
-      </div>
-
-        {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/tTz2QIe3nOg?si=RTbbfyUhOk5WKDPn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen className='pt-4'></iframe> */}
         <div className="text-center mt-8">
           <Button variant="outline">
             <Link href="/about">Explore Our History</Link>

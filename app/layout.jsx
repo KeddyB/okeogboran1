@@ -82,6 +82,7 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="Okeogboran - Discover the charm of our enchanting town" />
+        <link rel="icon" href="/favicon.png"></link>
       </head>
       <body>
         <ErrorBoundary>
