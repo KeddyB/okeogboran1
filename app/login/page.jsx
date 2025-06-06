@@ -18,6 +18,13 @@ export default function LoginPage() {
   const [isRegistering, setIsRegistering] = useState(false)
   const [isGoogleSigningIn, setIsGoogleSigningIn] = useState(false)
   const [isLoggingIn, setIsLoggingIn] = useState(false)
+  const [passwordRequirements, setPasswordRequirements] = useState({
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    special: false
+  })
   const router = useRouter()
   const { status } = useSession()
 
@@ -33,10 +40,37 @@ export default function LoginPage() {
     return "Medium"
   }
 
+  const checkPasswordRequirements = (password) => {
+    setPasswordRequirements({
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /[0-9]/.test(password),
+      special: /[!@#$%^&*]/.test(password)
+    })
+  }
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value
+    setPassword(newPassword)
+    if (!isLogin) {
+      checkPasswordRequirements(newPassword)
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError("")
     setMessage("")
+
+    if (!isLogin) {
+      // Check if all password requirements are met
+      const allRequirementsMet = Object.values(passwordRequirements).every(req => req)
+      if (!allRequirementsMet) {
+        setError("Please ensure your password meets all requirements")
+        return
+      }
+    }
 
     if (isLogin) {
       setIsLoggingIn(true)
@@ -136,12 +170,32 @@ export default function LoginPage() {
             <div>
               <input
                 type="password"
-                placeholder="At least 8 characters"
+                placeholder={isLogin ? "Password" : "At least 8 characters"}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
                 required
                 className="w-full p-3 rounded-lg border border-gray-200 focus:outline-none focus:border-blue-500"
               />
+              {!isLogin && (
+                <div className="mt-2 space-y-1 text-sm">
+                  <p className="font-medium text-gray-700 mb-1">Password must contain:</p>
+                  <p className={`flex items-center gap-1 ${passwordRequirements.length ? 'text-green-600' : 'text-gray-500'}`}>
+                    {passwordRequirements.length ? '✓' : '○'} At least 8 characters
+                  </p>
+                  <p className={`flex items-center gap-1 ${passwordRequirements.uppercase ? 'text-green-600' : 'text-gray-500'}`}>
+                    {passwordRequirements.uppercase ? '✓' : '○'} One uppercase letter
+                  </p>
+                  <p className={`flex items-center gap-1 ${passwordRequirements.lowercase ? 'text-green-600' : 'text-gray-500'}`}>
+                    {passwordRequirements.lowercase ? '✓' : '○'} One lowercase letter
+                  </p>
+                  <p className={`flex items-center gap-1 ${passwordRequirements.number ? 'text-green-600' : 'text-gray-500'}`}>
+                    {passwordRequirements.number ? '✓' : '○'} One number
+                  </p>
+                  <p className={`flex items-center gap-1 ${passwordRequirements.special ? 'text-green-600' : 'text-gray-500'}`}>
+                    {passwordRequirements.special ? '✓' : '○'} One special character (!@#$%^&*)
+                  </p>
+                </div>
+              )}
             </div>
 
             {!isLogin && (
