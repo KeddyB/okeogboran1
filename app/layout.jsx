@@ -95,20 +95,8 @@ export default function RootLayout({ children }) {
           content="Okeogboran - Discover the charm of our enchanting town"
         />
         <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/favicon.png"
-        ></link>
-        <link
           rel="icon"
           type="image/png"
-          sizes="32x32"
-          href="/favicon.png"
-        ></link>
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
           href="/favicon.png"
         ></link>
       </head>
