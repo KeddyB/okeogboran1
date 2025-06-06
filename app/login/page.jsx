@@ -3,11 +3,9 @@
 import { useState, useEffect } from "react"
 import { signIn, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { FaGoogle } from "react-icons/fa"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true)
@@ -19,7 +17,7 @@ export default function LoginPage() {
   const [message, setMessage] = useState("")
   const [isRegistering, setIsRegistering] = useState(false)
   const [isGoogleSigningIn, setIsGoogleSigningIn] = useState(false)
-  const [isLoggingIn, setIsLoggingIn] = useState(false) // Added new state variable
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
   const router = useRouter()
   const { status } = useSession()
 
@@ -41,7 +39,7 @@ export default function LoginPage() {
     setMessage("")
 
     if (isLogin) {
-      setIsLoggingIn(true) // Added setIsLoggingIn(true)
+      setIsLoggingIn(true)
       const result = await signIn("credentials", {
         redirect: false,
         email,
@@ -56,7 +54,7 @@ export default function LoginPage() {
       } else {
         router.push("/payment")
       }
-      setIsLoggingIn(false) // Added setIsLoggingIn(false)
+      setIsLoggingIn(false)
     } else {
       setIsRegistering(true)
       if (password !== confirmPassword) {
@@ -101,131 +99,116 @@ export default function LoginPage() {
   }, [status, router])
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background">
-      <div className="w-full max-w-md px-8 py-6 mt-4 text-left bg-card shadow-lg rounded-lg">
-        <h3 className="text-2xl font-bold text-center text-foreground">
-          {isLogin ? "Login to Your Account" : "Create New Account"}
-        </h3>
-        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-        {message && <p className="text-green-500 text-sm mt-2">{message}</p>}
-        <form onSubmit={handleSubmit} className="mt-4">
-          {!isLogin && (
-            <div className="mt-4">
-              <Label htmlFor="name" className="text-foreground">
-                Name
-              </Label>
-              <Input
-                type="text"
-                placeholder="Name"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="mt-1 bg-background text-foreground"
-              />
-            </div>
-          )}
-          <div className="mt-4">
-            <Label htmlFor="email" className="text-foreground">
-              Email
-            </Label>
-            <Input
-              type="email"
-              placeholder="Email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="mt-1 bg-background text-foreground"
-            />
-          </div>
-          <div className="mt-4">
-            <Label htmlFor="password" className="text-foreground">
-              Password
-            </Label>
-            <Input
-              type="password"
-              placeholder="Password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="mt-1 bg-background text-foreground"
-            />
+    <div className="flex min-h-screen">
+      {/* Left side - Form */}
+      <div className="w-full flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
+          <h1 className="text-2xl font-semibold mb-6">{isLogin ? "Welcome Back 👋" : "Welcome 👋"}</h1>
+          
+          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+          {message && <p className="text-green-500 text-sm mb-4">{message}</p>}
+          
+          <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
-              <p className="text-sm text-muted-foreground mt-1">
-                Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase
-                letter, one number, and one special character.
-              </p>
-            )}
-            {!isLogin && (
-              <div className="mt-2">
-                <span
-                  className={`text-sm ${
-                    getPasswordStrength(password) === "Weak"
-                      ? "text-red-500"
-                      : getPasswordStrength(password) === "Medium"
-                        ? "text-yellow-500"
-                        : "text-green-500"
-                  }`}
-                >
-                  Password strength: {getPasswordStrength(password)}
-                </span>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="w-full p-3 rounded-lg border border-gray-200 focus:outline-none focus:border-blue-500"
+                />
               </div>
             )}
-          </div>
-          {!isLogin && (
-            <div className="mt-4">
-              <Label htmlFor="confirmPassword" className="text-foreground">
-                Confirm Password
-              </Label>
-              <Input
-                type="password"
-                placeholder="Confirm Password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+            
+            <div>
+              <input
+                type="email"
+                placeholder="Example@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
-                className="mt-1 bg-background text-foreground"
+                className="w-full p-3 rounded-lg border border-gray-200 focus:outline-none focus:border-blue-500"
               />
             </div>
-          )}
-          <div className="flex items-baseline justify-between mt-4">
-            <Button
-              type="submit"
-              className="bg-primary text-primary-foreground"
-              disabled={isRegistering || isLoggingIn}
-            >
-              {" "}
-              {/* Updated disabled prop */}
-              {isLogin ? (isLoggingIn ? "Logging in..." : "Login") : isRegistering ? "Registering..." : "Register"}{" "}
-              {/* Updated button text */}
-            </Button>
-            <Button type="button" variant="link" onClick={() => setIsLogin(!isLogin)} className="text-sm text-primary">
-              {isLogin ? "Create an account" : "Already have an account?"}
-            </Button>
-          </div>
-        </form>
-        {isLogin && (
-          <div className="mt-4 text-center">
-            <Link href="/forgot-password" className="text-sm text-primary hover:underline">
-              Forgot Password?
-            </Link>
-          </div>
-        )}
-        <div className="mt-4">
-          <Button
-            onClick={handleGoogleSignIn}
-            className="w-full bg-secondary text-secondary-foreground"
-            disabled={isGoogleSigningIn}
-          >
-            <div className="flex justify-center items-center h-full">
-              <FaGoogle />
-              &nbsp;{isGoogleSigningIn ? "Signing in..." : "Sign in with Google"}
+            
+            <div>
+              <input
+                type="password"
+                placeholder="At least 8 characters"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full p-3 rounded-lg border border-gray-200 focus:outline-none focus:border-blue-500"
+              />
             </div>
-          </Button>
+
+            {!isLogin && (
+              <div>
+                <input
+                  type="password"
+                  placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  className="w-full p-3 rounded-lg border border-gray-200 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+            )}
+
+            {isLogin && (
+              <div className="flex justify-end">
+                <Link href="/forgot-password" className="text-blue-600 text-sm hover:underline">
+                  Forgot Password?
+                </Link>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isRegistering || isLoggingIn}
+              className="w-full bg-[#0F1A2E] text-white p-3 rounded-lg hover:bg-[#1a2942] transition-colors"
+            >
+              {isLogin ? (isLoggingIn ? "Signing in..." : "Sign in") : (isRegistering ? "Registering..." : "Register")}
+            </button>
+          </form>
+
+          <div className="my-6 flex items-center">
+            <div className="flex-1 border-t border-gray-300"></div>
+            <span className="px-4 text-gray-500 text-sm">Or</span>
+            <div className="flex-1 border-t border-gray-300"></div>
+          </div>
+
+          <div className="space-y-3">
+            <button
+              onClick={handleGoogleSignIn}
+              disabled={isGoogleSigningIn}
+              className="w-full flex items-center justify-center gap-2 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <FaGoogle className="text-[#4285F4]" />
+              <span className="text-gray-600">
+                {isGoogleSigningIn ? "Signing in with Google..." : "Sign in with Google"}
+              </span>
+            </button>
+          </div>
+
+          <p className="mt-8 text-center text-gray-600">
+            {isLogin ? "Don't you have an account? " : "Already have an account? "}
+            <button
+              onClick={() => setIsLogin(!isLogin)}
+              className="text-blue-600 hover:underline"
+            >
+              {isLogin ? "Sign up" : "Sign in"}
+            </button>
+          </p>
+
+          <p className="mt-8 text-center text-gray-500 text-sm">
+            © 2025 ALL RIGHTS RESERVED
+          </p>
         </div>
       </div>
+      
     </div>
   )
 }
