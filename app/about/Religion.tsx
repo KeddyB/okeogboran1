@@ -12,7 +12,7 @@ export default function Religion() {
                 TRADITIONAL RELIGION
               </h3>
               <Image 
-                src='/ogbo.jpg' 
+                src='/traditional.jpg' 
                 alt="Historical site" 
                 width={600} 
                 height={300}
@@ -49,7 +49,7 @@ export default function Religion() {
             <div>
               <h3 className="text-lg font-bold mb-2 text-foreground">CHRISTIANITY</h3>
               <Image 
-                src='/chapel.jpg' 
+                src='/church children.jpg' 
                 alt="Historical site" 
                 width={600} 
                 height={300}

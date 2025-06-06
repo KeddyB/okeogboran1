@@ -21,7 +21,7 @@ export function MainContent() {
       <article className="grid md:grid-cols-2 gap-8 mb-16">
         <div>
           <Image
-            src="/landscape.jpg"
+            src="/okeogboran.png"
             alt="Town center of Okeogboran"
             width={600}
             height={400}

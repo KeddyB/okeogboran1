@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 
 import History from './History'
@@ -14,50 +13,6 @@ export default function About() {
   return (
     <div className="min-h-screen bg-background text-foreground py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
       <div className="max-w-7xl mx-auto bg-card shadow-xl transition-colors duration-200">
-        {/* Top mini articles */}
-        <div className="grid grid-cols-3 gap-4 p-4 border-b border-border">
-          <div className="flex gap-2">
-            <Image 
-              src="/oke.png" 
-              alt="Festival celebration" 
-              width={60} 
-              height={60}
-              className="object-cover sm:hidden"
-            />
-            <div className="text-xs">
-              <h3 className="font-bold">Annual Olunhundole Festival</h3>
-              <p>Traditional celebration brings community together</p>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <Image 
-              src="/landscape.jpg"
-              alt="Education" 
-              width={60} 
-              height={60}
-              className="object-cover"
-            />
-            <div className="text-xs">
-              <h3 className="font-bold">Educational Excellence</h3>
-              <p>Leading quarter in academic achievements</p>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <Image 
-              src="/oke.png"
-              alt="Agriculture" 
-              width={60} 
-              height={60}
-              className="object-cover"
-            />
-            <div className="text-xs">
-              <h3 className="font-bold">Agricultural Heritage</h3>
-              <p>Thriving farming community continues tradition</p>
-            </div>
-          </div>
-        </div>
-        
-        {/* Newspaper title */}
         <div className="text-center py-8 border-b-2 border-border">
           <h1 className="text-4xl font-bold">
             <span className="text-primary">OKEOGBORAN: </span>HOME OF DIVERSE PERSONALITIES

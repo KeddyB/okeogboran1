@@ -9,7 +9,7 @@ export default function Economy () {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <Image 
-                src='/landscape.jpg' 
+                src='/trade.jpg' 
                 alt="Historical site" 
                 width={600} 
                 height={300}

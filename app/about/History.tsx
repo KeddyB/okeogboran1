@@ -12,7 +12,7 @@ export default function History()  {
                 Historical Background of Okeogboran
               </p>
               <Image 
-                src="/landscape.jpg"
+                src="/landscape.png"
                 alt="Historical site" 
                 width={600} 
                 height={400}
@@ -61,7 +61,7 @@ export default function History()  {
                     Is great annual festival that must be Celebrated to appease gods and fore fathers before eating new yam, it is done between 6th and 7th month of the year. OLUNHUNDOLE is well accepted not by only Oke Ogbonran people but the entire supare community and neighbouring towns and villages. When asked the need for the OLUNHUNDOLE annually and not anytime we like or abandoned it totally. We were told that, Oke Ogbonran cannot and should not joke with OLUNHUNDOLE as it brings protection, bountiful harvest to the people of Oke Ogbonran. Pa. Samson Ariyo said that his father told him that the only year when our forefathers failed to celebrate the festival the consequences were disastrous as so many people lost their lives and there were numerous bad occurrences.
                   </p>
                   <Image 
-                    src="/oke.png"
+                    src="/oludole.png"
                     alt="Cultural celebration" 
                     width={600} 
                     height={200}

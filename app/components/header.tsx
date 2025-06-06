@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
 const images = [
-  '/landscape.jpg',
-  '/ogboran.jpg',
-  '/ogbo.jpg',
-  '/scene.jpg'
+  '/landscape.png',
+  '/landscape2.png',
+  '/forest.png',
+  '/landscape3.jpg'
 ]
 
 export function Header() {
