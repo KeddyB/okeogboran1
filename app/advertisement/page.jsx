@@ -71,114 +71,118 @@ export default function AdvertisementPage() {
   const otherAds = ads.slice(1)
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-[1400px] mx-auto px-4 py-8">
-        <nav className="mb-8 border-b border-border">
-          <div className="flex items-center justify-between pb-4">
-            <h1 className="text-4xl font-bold tracking-tighter">Advertisements</h1>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Header */}
+      <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Latest Advertisements
+              </h1>
+              <p className="mt-2 text-gray-600 dark:text-gray-300">
+                Discover the latest opportunities and announcements in Okeogboran
+              </p>
+            </div>
             <button
               onClick={() => router.push("/contact")}
-              className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+              className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors shadow-sm"
             >
               Place Your Ad
             </button>
           </div>
-        </nav>
+        </div>
+      </div>
 
+      <main className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
         {ads.length > 0 ? (
-          <div className="grid grid-cols-12 gap-8">
+          <div className="space-y-12">
             {/* Featured Advertisement */}
-            <div className="col-span-12 lg:col-span-8 xl:col-span-9">
-              {featuredAd && (
+            {featuredAd && (
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
                 <Link href={`/advertisement/${featuredAd.slug.current}`}>
-                  <article className="group">
-                    <div className="relative aspect-[16/9] overflow-hidden rounded-xl mb-4">
+                  <div className="group cursor-pointer">
+                    <div className="relative aspect-[21/9] overflow-hidden">
                       <Image
                         src={featuredAd.image || "/placeholder.svg"}
                         alt={featuredAd.title}
                         fill
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        priority
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                        <span className="inline-block px-3 py-1 bg-blue-500 text-white text-sm rounded-full mb-4">
+                          Featured
+                        </span>
+                        <h2 className="text-3xl sm:text-4xl font-bold mb-3">
+                          {featuredAd.title}
+                        </h2>
+                        {featuredAd.description && (
+                          <p className="text-lg text-gray-200 line-clamp-2">
+                            {featuredAd.description}
+                          </p>
+                        )}
+                        <div className="mt-4 text-sm text-gray-300">
+                          <time dateTime={featuredAd.startDate}>
+                            {formattedDates[featuredAd._id] || featuredAd.startDate}
+                          </time>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            )}
+
+            {/* Other Advertisements Grid */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {otherAds.map((ad) => (
+                <Link key={ad._id} href={`/advertisement/${ad.slug.current}`}>
+                  <article className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow h-full">
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <Image
+                        src={ad.image || "/placeholder.svg"}
+                        alt={ad.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
-                    <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2 group-hover:text-primary transition-colors">
-                      {featuredAd.title}
-                    </h2>
-                    {featuredAd.description && (
-                      <p className="text-xl text-muted-foreground mb-4">{featuredAd.description}</p>
-                    )}
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <time dateTime={featuredAd.startDate}>
-                        {formattedDates[featuredAd._id] || featuredAd.startDate}
-                      </time>
+                    <div className="p-4">
+                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white group-hover:text-blue-500 transition-colors line-clamp-2">
+                        {ad.title}
+                      </h3>
+                      {ad.description && (
+                        <p className="mt-2 text-gray-600 dark:text-gray-300 line-clamp-2">
+                          {ad.description}
+                        </p>
+                      )}
+                      <div className="mt-3 text-sm text-gray-500 dark:text-gray-400">
+                        <time dateTime={ad.startDate}>
+                          {formattedDates[ad._id] || ad.startDate}
+                        </time>
+                      </div>
                     </div>
                   </article>
                 </Link>
-              )}
-
-              {/* Other Advertisements Grid */}
-              <div className="grid sm:grid-cols-2 gap-8 mt-12">
-                {otherAds.map((ad) => (
-                  <div key={ad._id}>
-                    <Link href={`/advertisement/${ad.slug.current}`}>
-                      <article className="group">
-                        <div className="relative aspect-[16/10] overflow-hidden rounded-lg mb-4">
-                          <Image
-                            src={ad.image || "/placeholder.svg"}
-                            alt={ad.title}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                          />
-                        </div>
-                        <h3 className="text-xl font-bold tracking-tight mb-2 group-hover:text-primary transition-colors">
-                          {ad.title}
-                        </h3>
-                        {ad.description && <p className="text-muted-foreground line-clamp-2 mb-2">{ad.description}</p>}
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <time dateTime={ad.startDate}>{formattedDates[ad._id] || ad.startDate}</time>
-                        </div>
-                      </article>
-                    </Link>
-                  </div>
-                ))}
-              </div>
+              ))}
             </div>
-
-            {/* Sidebar */}
-            <aside className="hidden lg:block lg:col-span-4 xl:col-span-3">
-              <div className="sticky top-8">
-                <h4 className="text-lg font-semibold mb-4">Latest Advertisements</h4>
-                <div className="space-y-6">
-                  {ads.slice(0, 5).map((ad) => (
-                    <Link key={ad._id} href={`/advertisement/${ad.slug.current}`}>
-                      <article className="group grid grid-cols-[80px,1fr] gap-4">
-                        <div className="relative aspect-square overflow-hidden rounded">
-                          <Image src={ad.image || "/placeholder.svg"} alt={ad.title} fill className="object-cover" />
-                        </div>
-                        <div>
-                          <h5 className="font-medium group-hover:text-primary transition-colors line-clamp-2">
-                            {ad.title}
-                          </h5>
-                          <time className="text-sm text-muted-foreground" dateTime={ad.startDate}>
-                            {formattedDates[ad._id] || ad.startDate}
-                          </time>
-                        </div>
-                      </article>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </aside>
           </div>
         ) : (
-          <div className="max-w-2xl mx-auto">
-            <p className="text-center text-lg mb-8">
-              There are currently no active advertisements. Interested in advertising with us?
-            </p>
-            <ContactForm />
+          <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm">
+            <div className="text-center">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+                No Active Advertisements
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-8">
+                There are currently no active advertisements. Would you like to be the first to advertise with us?
+              </p>
+              <ContactForm />
+            </div>
           </div>
         )}
-      </div>
-      <Footer /> 
+      </main>
+      <Footer />
     </div>
   )
 }
